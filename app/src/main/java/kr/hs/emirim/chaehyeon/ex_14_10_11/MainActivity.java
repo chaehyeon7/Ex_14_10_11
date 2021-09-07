@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+
 public class MainActivity extends AppCompatActivity {
     EditText editCall;
 
@@ -38,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = resolver.query(CallLog.Calls.CONTENT_URI, callSet, null, null, null);
         if (cursor == null)
             return "통화기록이 전혀 없음";
+
+        StringBuffer callBuff = new StringBuffer();
+        callBuff.append("\n날짜 : 구분 : 전화번호 : 통화시간\n\n");
+        cursor.moveToFirst();
+        do {
+            long callDate = cursor.getLong(0);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String strDate = dateFormat.format(new Double(callDate));
+            callBuff.append(strDate + ":");     //날짜값 누적
+
+        }while(cursor.moveToNext());
 
         return null;
     }

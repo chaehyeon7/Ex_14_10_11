@@ -49,9 +49,17 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String strDate = dateFormat.format(new Double(callDate));
             callBuff.append(strDate + ":");     //날짜값 누적
+            if(cursor.getInt(1)==CallLog.Calls.INCOMING_TYPE){
+                callBuff.append("착신 :");
+            }else{
+                callBuff.append("발신 :");
+            }
 
+            callBuff.append(cursor.getString(2) + ":");
+            callBuff.append(cursor.getString(3) + "초\n");
         }while(cursor.moveToNext());
 
-        return null;
+        cursor.close();
+        return callBuff.toString();
     }
 }
